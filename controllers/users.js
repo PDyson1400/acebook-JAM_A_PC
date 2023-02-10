@@ -36,6 +36,8 @@ const UsersController = {
         throw err;
       }
 
+      console.log(`${user} helloooooooooo`)
+
       if(userId != sessionId) {
         user.friends = [];
       }
@@ -74,7 +76,6 @@ const UsersController = {
       if (err) {
         throw err;
       }
-      console.log(user);
       res.status(201).redirect(`/users/${hostId}`);
     });
   },
@@ -87,10 +88,20 @@ const UsersController = {
       if (err) {
         throw err;
       }
-      console.log(user);
       res.status(201).redirect(`/users/${hostId}`);
     });
   },
+
+  Picture: (req, res) => {
+    const hostId = req.session.user._id;
+    // const user_picture = req.body.picture;
+    const user = new User(req.body);
+    console.log(user);
+
+    User.findOneAndUpdate({id: hostId}, {picture: user.picture}).then(() => {
+      
+    })
+    res.status(201).redirect(`/users/${hostId}`)}
 };
 
 module.exports = UsersController;

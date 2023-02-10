@@ -7,6 +7,7 @@ router.get("/new", UsersController.New);
 router.post("/", UsersController.Create);
 router.get("/:id", UsersController.Details);
 router.post("/:id/request", UsersController.Request);
+router.post("/:id/picture", UsersController.Picture);
 router.post("/:id/confirm", UsersController.Confirm);
 router.post("/:id/deny", UsersController.Deny);
 
