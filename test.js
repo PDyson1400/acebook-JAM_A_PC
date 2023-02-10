@@ -32,11 +32,15 @@ app.post('/upload', upload.single('image'), async (req, res) => {
     contentType: req.file.mimetype
   };
 
+  console.log(image);
   //the image object is inseted into the image collection
   await collection.insertOne(image);
   client.close();
+
+  res.redirect('/pictures');
 });
 
 app.listen(port, () => {
   console.log(`Listening on http://localhost:${port}`);
 });
+
