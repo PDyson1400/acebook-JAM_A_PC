@@ -1,6 +1,9 @@
-<form action="/users/{{this.user._id}}/request" method="post">
+<form action="/users/{{user._id}}/request" method="post">
+  {{#ifNotSelf userId req.session.user._id}}
     <input type="submit" value="Send friend request">
+  {{/ifNotSelf}}
 </form>
+
 
 <form id="link-form" action="/users/{{user._id}}/picture" method="post">
   <label for="picture">Link: </label>

@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const handlebars = require('handlebars');
 
 const UsersController = {
   New: (req, res) => {
@@ -31,6 +32,14 @@ const UsersController = {
     const userId = req.params.id;
     const sessionId = req.session.user._id;
 
+    handlebars.registerHelper('ifNotSelf', function(userId, sessionId, options) {
+      if (userId !== sessionId) {
+        return options.fn(this);
+      } else {
+        return options.inverse(this);
+      }
+    });
+
     User.findById(userId, (err, user) => {
       if (err) {
         throw err;
@@ -48,6 +57,7 @@ const UsersController = {
   Request: (req, res) => {
     const currentId = req.session.user._id;
     const targetId = req.params.id;
+
 
     User.findById(targetId, (err, user) => {
       if (err) {
