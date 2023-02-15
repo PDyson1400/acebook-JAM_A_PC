@@ -67,6 +67,9 @@ const UsersController = {
       }
   
       const isSessionUser = userId !== sessionId;
+      const friendbase = user.friends.filter((object) => object.status === "confirmed");
+
+      console.log(friendbase);
 
       const regex = /^\w*[^@]/g;
       const username = user.email.match(regex);
@@ -84,6 +87,7 @@ const UsersController = {
         session_user: req.session.user,
         is_session_user: isSessionUser,
         username: username,
+        friendbase: friendbase,
       });
     });
     }

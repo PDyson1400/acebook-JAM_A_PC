@@ -28,6 +28,12 @@
 <img width="200" height="200" src={{user.picture}}>
 
 {{#unless is_session_user}}
+<p>Friends List</p>
+{{#each friendbase}}
+<p><a href="/users/{{this.user_id}}">{{this.user_id}}</a></p>
+<img width="50" height="50" src={{this.picture}}>
+{{/each}}
+
 <p>Incoming friend requests</p>
 {{/unless}}
 
