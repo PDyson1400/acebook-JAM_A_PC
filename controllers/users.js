@@ -61,30 +61,52 @@ const UsersController = {
       const userId = req.params.id;
     const sessionId = req.session.user._id;
 
-    User.findById(userId, (err, user) => {
+    User.findById(userId, (err) => {
       if (err) {
         throw err;
       }
-  
-      const isSessionUser = userId !== sessionId;
+    }).then((user) => {
+      User.find((err, all_users) => {
+        if (err) {
+          throw err;
+        }
+        
+        const isSessionUser = userId !== sessionId;
+        const friendbase = []
+        user.friends.map((object) => {
+          if (object.status === "confirmed") {
+            friendbase.push(object.user_id)
+          }
+        });
 
-      const regex = /^\w*[^@]/g;
-      const username = user.email.match(regex);
-      
-      if(userId != sessionId) {
-        user.friends = [];
-      }
+        const friendList = [];
 
-      if (user.friends) {
-        user.friends = user.friends.filter(friend => friend.status === "pending");
-      }
+        all_users.map((object) => {
+          if (friendbase.includes(String(object._id))) {
+            friendList.push(object);
+          }
+        })
 
-      res.render("users/details", {
-        user: user,
-        session_user: req.session.user,
-        is_session_user: isSessionUser,
-        username: username,
-      });
+        const regex = /^\w*[^@]/g;
+        const username = user.email.match(regex);
+        
+        if(userId != sessionId) {
+          user.friends = [];
+        }
+
+        if (user.friends) {
+          user.friends = user.friends.filter(friend => friend.status === "pending");
+        }
+
+        res.render("users/details", {
+          user: user,
+          session_user: req.session.user,
+          is_session_user: isSessionUser,
+          username: username,
+          friendbase: friendList,
+        });
+
+      })
     });
     }
   },
