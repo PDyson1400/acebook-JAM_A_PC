@@ -61,34 +61,52 @@ const UsersController = {
       const userId = req.params.id;
     const sessionId = req.session.user._id;
 
-    User.findById(userId, (err, user) => {
+    User.findById(userId, (err) => {
       if (err) {
         throw err;
       }
-  
-      const isSessionUser = userId !== sessionId;
-      const friendbase = user.friends.filter((object) => object.status === "confirmed");
+    }).then((user) => {
+      User.find((err, all_users) => {
+        if (err) {
+          throw err;
+        }
+        
+        const isSessionUser = userId !== sessionId;
+        const friendbase = []
+        user.friends.map((object) => {
+          if (object.status === "confirmed") {
+            friendbase.push(object.user_id)
+          }
+        });
 
-      console.log(friendbase);
+        const friendList = [];
 
-      const regex = /^\w*[^@]/g;
-      const username = user.email.match(regex);
-      
-      if(userId != sessionId) {
-        user.friends = [];
-      }
+        all_users.map((object) => {
+          if (friendbase.includes(String(object._id))) {
+            friendList.push(object);
+          }
+        })
 
-      if (user.friends) {
-        user.friends = user.friends.filter(friend => friend.status === "pending");
-      }
+        const regex = /^\w*[^@]/g;
+        const username = user.email.match(regex);
+        
+        if(userId != sessionId) {
+          user.friends = [];
+        }
 
-      res.render("users/details", {
-        user: user,
-        session_user: req.session.user,
-        is_session_user: isSessionUser,
-        username: username,
-        friendbase: friendbase,
-      });
+        if (user.friends) {
+          user.friends = user.friends.filter(friend => friend.status === "pending");
+        }
+
+        res.render("users/details", {
+          user: user,
+          session_user: req.session.user,
+          is_session_user: isSessionUser,
+          username: username,
+          friendbase: friendList,
+        });
+
+      })
     });
     }
   },
