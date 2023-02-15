@@ -90,7 +90,7 @@ describe("Comments", () => {
     cy.contains("Create").click();
 
     // travel back to posts
-    cy.contains("Posts").click();
+    cy.contains("Home").click();
     cy.url().should("include", "/posts");
   });
 
