@@ -34,12 +34,15 @@ const UsersController = {
       if (err) {
         throw err;
       }
-      if (user.email === undefined) {
-        res.status(201).redirect(`/posts/`);
-      } else {
-        res.status(201).redirect(`/users/${user[0]._id}`);
-      }
+
+      req.session.search = user;
+      res.status(201).redirect(`/users/result`);
     })
+  },
+
+  Result: async (req, res) => {
+    let result = await req.session.search
+    res.render("users/result", {users: result, session_user: req.session.user});
   },
   
   Details: (req, res) => {
