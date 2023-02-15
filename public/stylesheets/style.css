@@ -1,8 +1,47 @@
 body {
   padding: 50px;
+  margin: 0 auto;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}
+
+.posts {
+  width: 100%;
+  list-style: none;
+  padding: 0;
+}
+
+
+.posts-container {
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+.navigation {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  list-style: none;
+}
+
+.navigation li {
+  margin-left: 10px;
+}
+
+.navigation input[type="submit"] {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 14px;
+  color: #00B7FF;
+}
+
+h1 {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
