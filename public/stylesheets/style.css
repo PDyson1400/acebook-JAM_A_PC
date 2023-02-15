@@ -14,12 +14,6 @@ a {
   padding: 0;
 }
 
-
-.posts-container {
-  margin: 0 auto;
-  max-width: 800px;
-}
-
 .navigation {
   display: flex;
   justify-content: flex-end;

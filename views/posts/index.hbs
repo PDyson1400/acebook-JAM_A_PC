@@ -16,30 +16,29 @@
     <input type="submit" value="Search">
 </form>
 
-<div class="posts-container">
-  <ul class="posts">
-      <li>
-        {{#each collection}}
-          <img width="40" height="40" src={{this.picture}}>
-          <a href="/users/{{this.post.user_id}}">{{this.username}}</a>
-          <p>{{this.post.message}}</p>
-          <p>{{this.post.likes}} likes</p>
-          {{#if this.isPicture}}
-            <img width="80" height="80" src={{this.post.picture}}>
-          {{/if}}
-          {{#if alreadyLiked}}
-            <form action="/posts/{{this.post._id}}/unlike" method="post">
-              <button type="submit">Unlike</button>
-            </form>
-          {{else}}
-            <form action="/posts/{{this.post._id}}/like" method="post">
-              <button type="submit">Like</button>
-            </form>
-          {{/if}}
-          <a href="/posts/{{this.post._id}}">More details</a>
-          <p>=====================</p>
-        {{/each}}
-      </li>
-  </ul>
-</div>
+<ul class="posts">
+    <li>
+      {{#each collection}}
+        <img width="40" height="40" src={{this.picture}}>
+        <a href="/users/{{this.post.user_id}}">{{this.username}}</a>
+        <p>{{this.post.message}}</p>
+        <p>{{this.post.likes}} likes</p>
+        {{#if this.isPicture}}
+          <img width="80" height="80" src={{this.post.picture}}>
+        {{/if}}
+        {{#if alreadyLiked}}
+          <form action="/posts/{{this.post._id}}/unlike" method="post">
+            <button type="submit">Unlike</button>
+          </form>
+        {{else}}
+          <form action="/posts/{{this.post._id}}/like" method="post">
+            <button type="submit">Like</button>
+          </form>
+        {{/if}}
+        <a href="/posts/{{this.post._id}}">More details</a>
+        <p>=====================</p>
+      {{/each}}
+    </li>
+</ul>
+
 
