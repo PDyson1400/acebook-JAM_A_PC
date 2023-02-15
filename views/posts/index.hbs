@@ -9,6 +9,13 @@
 </ul>
 
 <h1>Home</h1>
+
+<form action="/users/search" method="post">
+    <label for="username">Search for: </label>
+    <input id="username" type="text" name="username" maxlength="100" required>
+    <input type="submit" value="Search">
+</form>
+
 <ul class="posts">
     <li>
       {{#each collection}}

@@ -26,6 +26,21 @@ const UsersController = {
       }
     })
   },
+
+  Search: (req, res) => {
+    let search = req.body.username
+    let regex = new RegExp(search)
+    User.find({email: regex}, (err, user) => {
+      if (err) {
+        throw err;
+      }
+      if (user.email === undefined) {
+        res.status(201).redirect(`/posts/`);
+      } else {
+        res.status(201).redirect(`/users/${user[0]._id}`);
+      }
+    })
+  },
   
   Details: (req, res) => {
     if (!req.session.user && !req.cookies.user_sid) {
