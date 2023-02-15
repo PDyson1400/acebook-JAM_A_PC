@@ -58,6 +58,9 @@ const UsersController = {
       }
   
       const isSessionUser = userId !== sessionId;
+
+      const regex = /^\w*[^@]/g;
+      const username = user.email.match(regex);
       
       if(userId != sessionId) {
         user.friends = [];
@@ -70,7 +73,8 @@ const UsersController = {
       res.render("users/details", {
         user: user,
         session_user: req.session.user,
-        is_session_user: isSessionUser
+        is_session_user: isSessionUser,
+        username: username,
       });
     });
     }

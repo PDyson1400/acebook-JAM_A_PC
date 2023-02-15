@@ -8,6 +8,8 @@
   <li><a class="home" href="/posts">Home</a></li>
 </ul>
 
+<h2>{{username}}</h2>
+
 {{#if is_session_user}}
   <li>
     <form action="/users/{{user._id}}/request" method="post">
