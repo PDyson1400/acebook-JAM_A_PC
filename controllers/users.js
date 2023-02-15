@@ -35,12 +35,8 @@ const UsersController = {
         throw err;
       }
 
-      if (user[0].email === undefined) {
-        res.status(201).redirect(`/posts/`);
-      } else {
-        req.session.search = user;
-        res.status(201).redirect(`/users/result`);
-      }
+      req.session.search = user;
+      res.status(201).redirect(`/users/result`);
     })
   },
 
