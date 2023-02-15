@@ -3,33 +3,36 @@ const Comment = require("../models/comment");
 const User = require("../models/user");
 
 const PostsController = {
-  Index: (req, res) => {
-    Post.find((err) => {
-      if (err) {
-        throw err;
+  Index: async (req, res) => {
+      const currentUser = await User.findById(req.session.user._id);
+      // uses filter to fetch the IDs of all the confirmed friends of the current user, then uses map 
+      // to only include the user_id within the array
+      const confirmedFriendIds = currentUser.friends.filter(friend => friend.status === "confirmed").map(friend => friend.user_id);
+      // forgot that we want to also include the current logged in users posts on the timeline,
+      // so their ID has also been pushed to the confirmedFriendsId var.
+      confirmedFriendIds.push(currentUser._id);
+      
+      // the post variable finds all posts that were made by users who's IDs are in the confirnmedFriendsId array
+      // while sorting them in desending order via date.
+      const posts = await Post.find({ user_id: { $in: confirmedFriendIds } }).sort({ date: -1 });
+
+      const collection = [];
+      // we run a for loop that iterates over the posts array 
+      for (const post of posts) {
+        const user = await User.findById(post.user_id);
+        const regex = /^\w*[^@]/g;
+        const username = user.email.match(regex);
+        const isPicture = post.picture !== "";
+        collection.push({
+          post: post,
+          picture: user.picture,
+          username: username,
+          isPicture: isPicture
+        });
       }
-    }).sort({date:-1}).then((post) => {
-      let collection = [];
-      async function post_set(post, i) {
-        await User.findById(post[i].user_id, (err, user) => {
-          if (err) {
-            throw err;
-          }
-          let regex = /^\w*[^@]/g;
-          let username = user.email.match(regex);
-          let isPicture = post[i].picture !== "";
-          collection.push({post: post[i], picture: user.picture, username: username, isPicture: isPicture});
-        })
-      }
-      async function increment(post) {
-        for(let i = 0; i < post.length; i++) {
-        await post_set(post, i);
-      }
-      res.render("posts/index", { collection: collection , session_user: req.session.user});
-      }
-      increment(post);
-    })
-  },
+      res.render("posts/index", { collection: collection, session_user: req.session.user });
+    },
+
   New: (req, res) => {
     res.render("posts/new", {session_user: req.session.user});
   },
