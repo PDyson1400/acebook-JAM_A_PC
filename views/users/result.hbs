@@ -10,9 +10,9 @@
 
 <h1>Search Results:</h1>
 
-{{#each users}}
-<p>{{this.email}} <a href="/users/{{this._id}}">Go to Profile</a></p>
-<img width="50" height="50" src={{this.picture}}
+{{#each collection}}
+<p>{{this.username}} <a href="/users/{{this.user._id}}">Go to Profile</a></p>
+<img width="50" height="50" src={{this.user.picture}}
 <div>
 
 </div>
