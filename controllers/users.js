@@ -27,22 +27,31 @@ const UsersController = {
     })
   },
 
-  Search: (req, res) => {
+  Search: async (req, res) => {
     let search = req.body.username
     let regex = new RegExp(search)
-    User.find({email: regex}, (err, user) => {
+    await User.find({email: regex}, (err, user) => {
       if (err) {
         throw err;
       }
 
-      req.session.search = user;
-      res.status(201).redirect(`/users/result`);
+      let collection = []
+
+      for(let i = 0; i < user.length; i++)
+      {
+        const regex = /^\w*[^@]/g;
+        const username = user[i].email.match(regex);
+
+        collection.push({user: user[i], username: username})
+      }
+      req.session.collection = collection;
     })
+    res.status(201).redirect(`/users/result`);
   },
 
   Result: async (req, res) => {
-    let result = await req.session.search
-    res.render("users/result", {users: result, session_user: req.session.user});
+    let collection = await req.session.collection
+    res.render("users/result", {collection: collection, session_user: req.session.user});
   },
   
   Details: (req, res) => {
