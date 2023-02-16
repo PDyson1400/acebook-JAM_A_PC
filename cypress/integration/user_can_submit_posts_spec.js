@@ -15,7 +15,7 @@ describe("Timeline Posts", () => {
 
     // submit a post
     cy.visit("/posts");
-    cy.contains("New post").click();
+    cy.get('.new-post-link').click();
 
     cy.get("#message").type("Hello, world!");
     cy.get("#new-post-form > [type='submit']").click();
@@ -39,7 +39,7 @@ describe("Timeline Posts", () => {
 
     // DON'T submit a post, but press submit anyway
     cy.visit("/posts");
-    cy.contains("New post").click();
+    cy.get('.new-post-link').click();
     cy.get("#new-post-form").submit();
     cy.url().should("include", "/posts/new");
   });
@@ -60,13 +60,13 @@ describe("Timeline Posts", () => {
 
     // DON'T submit a post, but press submit anyway
     cy.visit("/posts");
-    cy.contains("New post").click();
+    cy.get('.new-post-link').click();
     cy.get("#new-post-form").submit();
     cy.url().should("include", "/posts/new");
 
     // Submit a post with just spaces - this should not post
     cy.visit("/posts");
-    cy.contains("New post").click();
+    cy.get('.new-post-link').click();
     cy.get("#message").type("      ");
     cy.get("#new-post-form > [type='submit']").click();
     cy.url().should("include", "/posts/new");
@@ -87,7 +87,7 @@ describe("Timeline Posts", () => {
     cy.get("#submit").click();
 
     cy.visit("/posts");
-    cy.contains("New post").click();
+    cy.get('.new-post-link').click();
     cy.get("#message").type("            Hello, world!         ");
     cy.get("#new-post-form > [type='submit']").click();
     cy.get('ul').should('contain.text',"Hello, world!");
