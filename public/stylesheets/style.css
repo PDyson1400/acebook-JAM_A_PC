@@ -9,6 +9,103 @@ a {
 }
 
 .posts {
+  width: 30%;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-style: solid;
+  border-width: thick;
+  border-color: rgb(0, 0, 0);
+  border-radius: 12px;
+  padding: 5px;
+  margin-left: 35%;
+  margin-right: 35%;
+}
+
+.ind_posts {
+  border-style: dotted;
+  border-width: 2px;
+  border-color: rgb(0, 0, 0);
+  border-radius: 12px;
+  padding: 10px;
+  padding-left: 13px;
+  width: 200%;
+  margin: 5px;
+  margin-left: -60%;
+  align-items: left;
+}
+
+.navigation {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  list-style: none;
+}
+
+.navigation ul {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.navigation li {
+  margin-left: 10px;
+}
+
+.navigation a {
+  display: inline-block;
+  margin: 0 10px;
+  padding: 10px 15px;
+  border-radius: 25px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.2s ease-in-out;
+}
+
+.navigation input[type="submit"] {
+  background-color: #00B7FF;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.2s ease-in-out;
+}
+
+.navigation a:hover, .navigation input[type="submit"]:hover {
+  background-color: #f5f5f5;
+  color: #00B7FF;
+}
+
+.navigation a:active, .navigation input[type="submit"]:active {
+  background-color: #e6e6e6;
+}
+
+@media only screen and (max-width: 768px) {
+  .navigation li {
+    margin-left: 0;
+  }
+  .navigation input[type="submit"] {
+    margin-left: 10px;
+  }
+}
+
+h1 {
+  position: absolute;
+  top: 0;
+  left: 1;
+}
+
+.posts {
   width: 100%;
   list-style: none;
   padding: 0;
