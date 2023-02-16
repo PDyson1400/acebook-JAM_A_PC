@@ -26,15 +26,13 @@
         {{#if this.isPicture}}
           <img width="80" height="80" src={{this.post.picture}}>
         {{/if}}
-        {{#if alreadyLiked}}
-          <form action="/posts/{{this.post._id}}/unlike" method="post">
-            <button type="submit">Unlike</button>
-          </form>
-        {{else}}
-          <form action="/posts/{{this.post._id}}/like" method="post">
-            <button type="submit">Like</button>
-          </form>
-        {{/if}}
+        <form action="/posts/{{this.post._id}}/like" method="post">
+          {{#if alreadyLiked}}
+              <button type="submit">Unlike</button>
+          {{else}}
+              <button type="submit">Like</button>
+          {{/if}}
+        </form>
         <a href="/posts/{{this.post._id}}">More details</a>
         <p>=====================</p>
       {{/each}}
