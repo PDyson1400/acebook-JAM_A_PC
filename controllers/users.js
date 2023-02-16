@@ -92,7 +92,11 @@ const UsersController = {
               friendList.push(object);
             }
           })
-  
+
+          const current_user = all_users.filter((object) => String(object._id) === sessionId)[0]
+          const isFriend = !(current_user.friends.filter((object) => object.user_id === userId && object.status === "confirmed").length > 0) && isSessionUser
+
+
           const regex = /^\w*[^@]/g;
           const username = user.email.match(regex);
           
@@ -110,6 +114,7 @@ const UsersController = {
             is_session_user: isSessionUser,
             username: username,
             friendbase: friendList,
+            isFriend: isFriend,
           });
           })
         });
