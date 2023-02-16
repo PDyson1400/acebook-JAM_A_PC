@@ -50,8 +50,12 @@ const UsersController = {
   },
 
   Result: async (req, res) => {
-    let collection = await req.session.collection
-    res.render("users/result", {collection: collection, session_user: req.session.user});
+    if (!req.session.user && !req.cookies.user_sid) {
+      res.redirect("/sessions/new");
+    } else {
+      let collection = await req.session.collection
+      res.render("users/result", {collection: collection, session_user: req.session.user});
+    }
   },
   
   Details: (req, res) => {
