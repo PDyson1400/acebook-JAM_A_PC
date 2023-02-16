@@ -73,8 +73,8 @@ describe("Comments", () => {
     cy.get('#username').type("someone")
     cy.get('[action="/users/search"] > [type="submit"]').click();
     cy.wait(1000);
-    cy.reload();
-    cy.wait(1000);
+    // cy.reload();
+    // cy.wait(1000);
 
     cy.get('p > a').click();
     cy.get(':nth-child(4) > form > input').click();
