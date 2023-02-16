@@ -23,9 +23,9 @@
 </form>
 
 <ul class="comments">
-  {{#each comments}}
-  <a href="/users/{{this.user_id}}">User Profile</a>
-  <li>{{this.message}}</li> 
+  {{#each collection}}
+  <a href="/users/{{this.comment.user_id}}">{{this.username}}</a>
+  <li>{{this.comment.message}}</li> 
   {{/each}}
 </ul>
 
