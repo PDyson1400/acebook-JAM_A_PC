@@ -8,12 +8,12 @@
     </form> </li>
 </ul>
 
-<h1>New Post</h1>
+<h1>Search Results:</h1>
 
-<form id="new-post-form" action="/posts" method="post">
-  <label for="message">Message: </label>
-  <input id="message" type="text" name="message" maxlength="250" required>
-  <label for="picture">Image url: </label>
-  <input id="picture" type="text" name="picture">
-  <input type="submit" value="Submit">
-</form>
+{{#each collection}}
+<p>{{this.username}} <a href="/users/{{this.user._id}}">Go to Profile</a></p>
+<img width="50" height="50" src={{this.user.picture}}
+<div>
+
+</div>
+{{/each}}

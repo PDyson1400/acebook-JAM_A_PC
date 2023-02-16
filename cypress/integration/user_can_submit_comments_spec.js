@@ -15,7 +15,7 @@ describe("Comments", () => {
 
     // submit a post
     cy.visit("/posts");
-    cy.contains("New post").click();
+    cy.get('.new-post-link').click();
     cy.get("#message").type("Hello, world!");
     cy.get("#new-post-form > [type='submit']").click();
 
@@ -69,6 +69,35 @@ describe("Comments", () => {
     cy.get("#password").type("password");
     cy.get("#submit").click();
 
+    // search for and add a user and log out
+    cy.get('#username').type("someone")
+    cy.get('[action="/users/search"] > [type="submit"]').click();
+    cy.wait(1000);
+    cy.reload();
+    cy.wait(1000);
+
+    cy.get('p > a').click();
+    cy.get(':nth-child(4) > form > input').click();
+    cy.get(':nth-child(5) > form > input').click();
+    cy.url().should("contain","/sessions/new")
+
+    // log in as someone (account from before)
+    cy.visit("/sessions/new");
+    cy.get("#email").type("someone@example.com");
+    cy.get("#password").type("password");
+    cy.get("#submit").click();
+
+    // nav to their user profile
+    cy.contains("someone").click();
+    cy.url().should("contain","/users");
+    cy.contains("Confirm").click();
+    cy.get(':nth-child(5) > form > input').click();
+
+    // sign in again as tester
+    cy.get("#email").type("tester@example.com");
+    cy.get("#password").type("password");
+    cy.get("#submit").click();
+
     // attempt to add a comment
     cy.contains("More details").click();
     cy.get("#message").type("Comment 2");
@@ -90,7 +119,7 @@ describe("Comments", () => {
     cy.contains("Create").click();
 
     // travel back to posts
-    cy.contains("Posts").click();
+    cy.contains("Home").click();
     cy.url().should("include", "/posts");
   });
 

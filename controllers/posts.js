@@ -23,14 +23,21 @@ const PostsController = {
         const regex = /^\w*[^@]/g;
         const username = user.email.match(regex);
         const isPicture = post.picture !== "";
+        let alreadyLiked = ""
+        if (post.liked_by.includes(String(currentUser._id))) {
+          alreadyLiked = true
+        } else {
+          alreadyLiked = false
+        }
         collection.push({
           post: post,
           picture: user.picture,
           username: username,
-          isPicture: isPicture
+          isPicture: isPicture,
+          alreadyLiked: alreadyLiked
         });
       }
-      res.render("posts/index", { collection: collection, session_user: req.session.user });
+      res.render("posts/index", { collection: collection, session_user: req.session.user});
     },
 
   New: (req, res) => {
@@ -79,7 +86,7 @@ const PostsController = {
       }
   
       const alreadyLiked = post.liked_by.includes(userId);
-  
+      
       if (!alreadyLiked) {
         post.likes = post.likes + 1;
         post.liked_by.push(userId);
@@ -98,24 +105,39 @@ const PostsController = {
     });
   },
 
-  Details: (req, res) => {
+  Details: async (req, res) => {
     const postId = req.params.id;
-    Post.findById(postId, (err, post) => {
-      if (err) {
-        throw err;
-      }
-      return post;
-    }).then((post) => (
-      Comment.find((err, comments) => {
+    const posts = await Post.find()
+    if(posts.filter((object) => String(object._id) === postId).length > 0) {
+      Post.findById(postId, (err, post) => {
         if (err) {
           throw err;
         }
+        return post;
+      }).then((post) => (
+        Comment.find(async (err, comments) => {
+          if (err) {
+            throw err;
+          }
 
-        let isPicture = post.picture !== "";
+          let collection = [];
+          const users = await User.find()
+          const regex = /^\w*[^@]/g;
 
-        res.render("posts/details", {comments: comments, post: post, session_user: req.session.user, isPicture: isPicture});
-      }).where({post_id: postId})
-    ));
+          for(let i = 0; i < comments.length; i++) {
+            let userdet = users.filter((object) => String(object._id) === comments[i].user_id)[0]
+            let username = userdet.email.match(regex);
+            collection.push({comment: comments[i], username: username})
+          }
+  
+          let isPicture = post.picture !== "";
+
+          res.render("posts/details", {collection: collection, post: post, session_user: req.session.user, isPicture: isPicture});
+        }).where({post_id: postId})
+      ));
+    } else {
+      res.redirect("/posts");
+    }
   },
 
   CreateComment: (req, res) => {

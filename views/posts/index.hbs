@@ -1,14 +1,21 @@
-<ul>
-  <li><form action='/sessions?_method=DELETE' method='POST'>
-      <input type="submit" value="Log Out">
-    </form> </li>
-  <li><a href="/users/{{session_user._id}}"><img width="50" height="50" src={{session_user.picture}}></a></li>
-  <li><a href="/users/{{session_user._id}}">User Page</a></li>
-  <li><a class="new-post-link" href="/posts/new">New post</a></li>
+<ul class="navigation">
   <li><a class="home" href="/posts">Home</a></li>
+   <li><a href="/users/{{session_user._id}}"><img width="50" height="50" src={{session_user.picture}}></a></li>
+  <li><a href="/users/{{session_user._id}}">Profile</a></li>
+  <li><a class="new-post-link" href="/posts/new">New Post</a></li>
+    <li><form action='/sessions?_method=DELETE' method='POST'>
+      <input type="submit" value="Log Out">
+    </form></li>
 </ul>
 
 <h1>Home</h1>
+
+<form action="/users/search" method="post">
+    <label for="username">Search for: </label>
+    <input id="username" type="text" name="username" maxlength="100" required>
+    <input type="submit" value="Search">
+</form>
+
 <ul class="posts">
     <li>
       {{#each collection}}
@@ -20,17 +27,17 @@
         {{#if this.isPicture}}
           <img width="80" height="80" src={{this.post.picture}}>
         {{/if}}
-        {{#if alreadyLiked}}
-          <form action="/posts/{{this.post._id}}/unlike" method="post">
-            <button type="submit">Unlike</button>
-          </form>
-        {{else}}
-          <form action="/posts/{{this.post._id}}/like" method="post">
-            <button type="submit">Like</button>
-          </form>
-        {{/if}}
+        <form action="/posts/{{this.post._id}}/like" method="post">
+          {{#if alreadyLiked}}
+              <button type="submit">Unlike</button>
+          {{else}}
+              <button type="submit">Like</button>
+          {{/if}}
+        </form>
         <a href="/posts/{{this.post._id}}">More details</a>
       </div>
       {{/each}}
     </li>
 </ul>
+
+
