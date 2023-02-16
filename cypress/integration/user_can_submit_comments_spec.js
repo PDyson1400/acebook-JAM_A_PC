@@ -72,9 +72,9 @@ describe("Comments", () => {
     // search for and add a user and log out
     cy.get('#username').type("someone")
     cy.get('[action="/users/search"] > [type="submit"]').click();
-    cy.wait(1000)
-    cy.reload()
-    cy.wait(1000)
+    cy.wait(1000);
+    cy.reload();
+    cy.wait(1000);
 
     cy.get('p > a').click();
     cy.get(':nth-child(4) > form > input').click();
@@ -88,7 +88,7 @@ describe("Comments", () => {
     cy.get("#submit").click();
 
     // nav to their user profile
-    cy.get('img').click();
+    cy.contains("someone").click();
     cy.url().should("contain","/users");
     cy.contains("Confirm").click();
     cy.get(':nth-child(5) > form > input').click();
