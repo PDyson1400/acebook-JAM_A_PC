@@ -115,14 +115,24 @@ const PostsController = {
         }
         return post;
       }).then((post) => (
-        Comment.find((err, comments) => {
+        Comment.find(async (err, comments) => {
           if (err) {
             throw err;
           }
+
+          let collection = [];
+          const users = await User.find()
+          const regex = /^\w*[^@]/g;
+
+          for(let i = 0; i < comments.length; i++) {
+            let userdet = users.filter((object) => String(object._id) === comments[i].user_id)[0]
+            let username = userdet.email.match(regex);
+            collection.push({comment: comments[i], username: username})
+          }
   
           let isPicture = post.picture !== "";
-  
-          res.render("posts/details", {comments: comments, post: post, session_user: req.session.user, isPicture: isPicture});
+
+          res.render("posts/details", {collection: collection, post: post, session_user: req.session.user, isPicture: isPicture});
         }).where({post_id: postId})
       ));
     } else {
