@@ -12,6 +12,7 @@
 <ul class="posts">
     <li>
       {{#each collection}}
+      <div class="ind_posts">
         <img width="40" height="40" src={{this.picture}}>
         <a href="/users/{{this.post.user_id}}">{{this.username}}</a>
         <p>{{this.post.message}}</p>
@@ -29,7 +30,7 @@
           </form>
         {{/if}}
         <a href="/posts/{{this.post._id}}">More details</a>
-        <p>=====================</p>
+      </div>
       {{/each}}
     </li>
 </ul>
