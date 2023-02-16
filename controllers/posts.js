@@ -98,24 +98,29 @@ const PostsController = {
     });
   },
 
-  Details: (req, res) => {
+  Details: async (req, res) => {
     const postId = req.params.id;
-    Post.findById(postId, (err, post) => {
-      if (err) {
-        throw err;
-      }
-      return post;
-    }).then((post) => (
-      Comment.find((err, comments) => {
+    const posts = await Post.find()
+    if(posts.filter((object) => String(object._id) === postId).length > 0) {
+      Post.findById(postId, (err, post) => {
         if (err) {
           throw err;
         }
-
-        let isPicture = post.picture !== "";
-
-        res.render("posts/details", {comments: comments, post: post, session_user: req.session.user, isPicture: isPicture});
-      }).where({post_id: postId})
-    ));
+        return post;
+      }).then((post) => (
+        Comment.find((err, comments) => {
+          if (err) {
+            throw err;
+          }
+  
+          let isPicture = post.picture !== "";
+  
+          res.render("posts/details", {comments: comments, post: post, session_user: req.session.user, isPicture: isPicture});
+        }).where({post_id: postId})
+      ));
+    } else {
+      res.redirect("/posts");
+    }
   },
 
   CreateComment: (req, res) => {
